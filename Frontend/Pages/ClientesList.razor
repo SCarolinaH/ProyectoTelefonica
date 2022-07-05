@@ -1,0 +1,70 @@
+﻿@page "/clientesList"
+@using Frontend.Interfaces;
+@using Frontend.Models;
+
+@inject ICliente Servicio
+
+
+<h3>Listado de clientes</h3>
+
+@if(Clientes == null)
+{
+    <h3>Cargando...</h3>
+
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <td><a href="/clienteAdd" class="btn btn-success">Nuevo</a></td>
+                <td>Cliente ID</td>
+                 <td>Nombre</td>
+                  <td>Telefono fijo</td>
+                    <td>Telefono Movil</td>
+                    <td>Correo</td>
+            </tr>
+
+                @foreach (var cliente in Clientes)
+                {
+                    <tr>
+                        <td>
+
+                            <div class="btn btn-toolbar ">
+                                <div class="btn-group">
+                                    <a href="/clienteUpdate/@cliente.ClienteId" class="= btn btn-primary">Editar</a>
+                                      <a href="/clienteDelete/@cliente.ClienteId" class="= btn btn-danger">Eliminar</a>
+                                </div>
+
+                            </div>
+                        </td>
+                       
+                        <td>@cliente.ClienteId</td>
+                        <td>@cliente.Nombre</td>
+                         <td>@cliente.TelefonoFijo</td>
+                         <td>@cliente.TelefonoMovil</td>
+                         <td>@cliente.Correo</td>
+
+
+                    </tr>
+                    
+                }
+                 </thead>
+            <tbody></tbody>
+       
+    </table>
+}
+
+
+
+@code {
+    public IEnumerable<Cliente>Clientes{ get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Clientes = await Servicio.GetClientes();
+   
+
+    }
+
+}

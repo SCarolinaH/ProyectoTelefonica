@@ -1,0 +1,145 @@
+﻿@page "/clienteAdd"
+@page "/clienteUpdate/{id:int}"
+@page "/clienteDelete/{idDelete:int}"
+
+@using Frontend.Interfaces;
+@using Frontend.Services;
+@using Frontend.Models;
+
+@inject ICliente Servicio
+@inject NavigationManager navigatorManager
+
+
+<h3>Titulo</h3>
+
+@if(cliente is null)
+{
+    
+    <h3>Cargando....</h3>
+}
+
+else
+{
+    <EditForm Model="cliente" OnInvalidSubmit="Guardar">
+        <DataAnnotationsValidator/>
+
+        @if (id != 0 || idDel != 0) 
+
+        {
+            
+        <label>Cliente ID</label>
+        <ValidationMessage For="@(() => cliente.ClienteId)" />
+        <input type="text" @bind="cliente.ClienteId" disabled="@DisableEdit"/><br>
+        }
+
+
+
+        <label>Nombre</label>       
+        <ValidationMessage For="@(() => cliente.Nombre)" />
+        <input type="text" @bind="cliente.Nombre" disabled="@Disabled"/><br>
+
+         <label>Telefono fijo</label>
+           <ValidationMessage For="@(() => cliente.TelefonoFijo)" />
+           <input type="text" @bind="cliente.TelefonoFijo" disabled="@Disabled"/><br>
+
+         <label>Telefono movil</label>
+           <ValidationMessage For="@(() => cliente.TelefonoMovil)" />
+           <input type="text" @bind="cliente.TelefonoMovil" disabled="@Disabled"/><br>
+
+         <label>Correo</label>
+           <ValidationMessage For="@(() => cliente.Correo)" />
+            <input type="text" @bind="cliente.Correo" disabled="@Disabled"/><br>
+
+        <hr>
+        @if(idDel == 0)
+        {
+            <input class="btn btn-primary" type="submit" value="Guardar"/>
+
+        }
+
+        else
+        {
+           <input class="btn btn-danger" type="button" value="Eliminar" @onclick="Eliminar" />
+            
+        }
+
+         <input class="btn btn-danger" type="button" value="Cancelar" @onclick="Cancelar" />
+
+        </EditForm>
+     
+}
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+
+    [Parameter]
+    public int idDel { get; set; }
+
+
+    public string Titulo { get; set; } = "";
+
+    Cliente cliente = new Cliente();
+    public bool Disable { get; set; } = false;
+    public bool DisableEdit { get; set; } = false;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+    
+            //if (id != 0)
+            //{
+            //    cliente = await Servicio.GetCliente(id);      
+            //   DisableEdit = true;
+            //    Titulo = "Edicion de cliente";
+            //}
+
+            else if (idDel != 0)
+
+            {
+
+                cliente = await Servicio.GetCliente(id);
+                DisableEdit = true;
+                Disabled = true;
+                Titulo = "Eliminacion de cliente";
+            }
+            else
+                Titulo = "Nuevo cliente";
+        }
+    }
+
+    public async void Guardar()
+    {
+        if(id == 0)
+        {
+            var result = await Servicio.AddCliente(cliente);
+            if (result == true)
+                navigatorManager.NavigateTo("/clientesList");
+        }
+        else
+        {
+
+            var result = await Servicio.UpdateCliente(cliente);
+            if (result == true)
+                navigatorManager.NavigateTo("/clientesList");
+            
+        }
+    }
+
+      public async void Eliminar()
+    {
+              var result = await Servicio.DeleteCliente(idDel);
+          
+
+            if (result == true)
+                navigatorManager.NavigateTo("/clientesList");
+    }
+
+      public async void Cancelar()
+    {
+        
+           navigatorManager.NavigateTo("/clientesList");
+
+    }
+}
