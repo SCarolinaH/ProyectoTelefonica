@@ -11,7 +11,7 @@ namespace Frontend.Interfaces
 
         Task<bool> UpdateCliente(Cliente cliente);
 
-        Task DeleteCliente(int id);
+        Task<bool> DeleteCliente(int id);
 
     }
 }

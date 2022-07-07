@@ -20,20 +20,17 @@
 
 else
 {
-    <EditForm Model="cliente" OnInvalidSubmit="Guardar">
-        <DataAnnotationsValidator/>
+    <EditForm Model="cliente" OnValidSubmit="Guardar">
+       <DataAnnotationsValidator/>
 
-        @if (id != 0 || idDel != 0) 
-
+        @if(id!=0 || idDel != 0)
         {
-            
-        <label>Cliente ID</label>
+             <label>Cliente ID</label>
         <ValidationMessage For="@(() => cliente.ClienteId)" />
-        <input type="text" @bind="cliente.ClienteId" disabled="@DisableEdit"/><br>
+        <input type="text" @bind="cliente.ClienteId" disabled="@DisableEdit"/><br>        
+
         }
-
-
-
+                    
         <label>Nombre</label>       
         <ValidationMessage For="@(() => cliente.Nombre)" />
         <input type="text" @bind="cliente.Nombre" disabled="@Disabled"/><br>
@@ -50,6 +47,7 @@ else
            <ValidationMessage For="@(() => cliente.Correo)" />
             <input type="text" @bind="cliente.Correo" disabled="@Disabled"/><br>
 
+       
         <hr>
         @if(idDel == 0)
         {
@@ -81,32 +79,31 @@ else
     public string Titulo { get; set; } = "";
 
     Cliente cliente = new Cliente();
-    public bool Disable { get; set; } = false;
+    public bool Disabled { get; set; } = false;
     public bool DisableEdit { get; set; } = false;
 
 
     protected override async Task OnInitializedAsync()
     {
-    
-            //if (id != 0)
-            //{
-            //    cliente = await Servicio.GetCliente(id);      
-            //   DisableEdit = true;
-            //    Titulo = "Edicion de cliente";
-            //}
 
-            else if (idDel != 0)
-
-            {
-
-                cliente = await Servicio.GetCliente(id);
-                DisableEdit = true;
-                Disabled = true;
-                Titulo = "Eliminacion de cliente";
-            }
-            else
-                Titulo = "Nuevo cliente";
+        if(id != 0)
+        {
+            cliente = await Servicio.GetCliente(id);      
+            DisableEdit = true;
+            Titulo = "Edicion de cliente"; 
         }
+
+        else if (idDel != 0)
+
+        {
+            cliente = await Servicio.GetCliente(id);
+            DisableEdit = true;
+            Disabled = true;
+            Titulo = "Eliminacion de cliente";
+        }
+        else
+            Titulo = "Nuevo cliente";
+
     }
 
     public async void Guardar()
@@ -123,23 +120,22 @@ else
             var result = await Servicio.UpdateCliente(cliente);
             if (result == true)
                 navigatorManager.NavigateTo("/clientesList");
-            
+
         }
     }
 
-      public async void Eliminar()
-    {
-              var result = await Servicio.DeleteCliente(idDel);
-          
 
-            if (result == true)
-                navigatorManager.NavigateTo("/clientesList");
+    public async void Eliminar()
+    {
+        var result = await Servicio.DeleteCliente(idDel);
+
+        if (result == true)
+            navigatorManager.NavigateTo("/clientesList");
     }
-
-      public async void Cancelar()
+    public async void Cancelar()
     {
-        
-           navigatorManager.NavigateTo("/clientesList");
-
+        navigatorManager.NavigateTo("/clientesList");
     }
 }
+
+

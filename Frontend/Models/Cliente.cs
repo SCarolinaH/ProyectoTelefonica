@@ -9,7 +9,7 @@ namespace Frontend.Models
 
         [Required(ErrorMessage ="El nombre es un campo obligatorio")]
         [StringLength(150, ErrorMessage = "El campo nombre no puede exceder 150 caracteres")]
-        public string Nombre { get; set; }
+        public String Nombre { get; set; }
 
         [StringLength(9, ErrorMessage = " No puede exceder 9 caracteres")]
         public String? TelefonoFijo { get; set; }

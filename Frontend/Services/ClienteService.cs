@@ -70,9 +70,6 @@ namespace Frontend.Services
                 return false;
         }
 
-        Task ICliente.DeleteCliente(int id)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }
