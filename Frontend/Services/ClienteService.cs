@@ -17,9 +17,9 @@ namespace Frontend.Services
         public async Task<bool> AddCliente(Cliente cliente)
         {
             var clienteJson = new StringContent(JsonSerializer.Serialize(cliente),
-                Encoding.UTF8,"application/json");
+                Encoding.UTF8, "application/json");
 
-            var result = await _httpClient.PostAsJsonAsync("api/clientes",clienteJson);
+            var result = await _httpClient.PostAsync("api/clientes",clienteJson);
 
             if(result.IsSuccessStatusCode)
                 return true;

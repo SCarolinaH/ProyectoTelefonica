@@ -1,6 +1,6 @@
 ﻿@page "/clienteAdd"
 @page "/clienteUpdate/{id:int}"
-@page "/clienteDelete/{idDelete:int}"
+@page "/clienteDelete/{idDel:int}"
 
 @using Frontend.Interfaces;
 @using Frontend.Services;
@@ -26,8 +26,8 @@ else
         @if(id!=0 || idDel != 0)
         {
              <label>Cliente ID</label>
-        <ValidationMessage For="@(() => cliente.ClienteId)" />
-        <input type="text" @bind="cliente.ClienteId" disabled="@DisableEdit"/><br>        
+            <ValidationMessage For="@(() => cliente.ClienteId)" />
+            <input type="text" @bind="cliente.ClienteId" disabled="@DisableEdit"/><br>        
 
         }
                     
@@ -132,6 +132,7 @@ else
         if (result == true)
             navigatorManager.NavigateTo("/clientesList");
     }
+
     public async void Cancelar()
     {
         navigatorManager.NavigateTo("/clientesList");
