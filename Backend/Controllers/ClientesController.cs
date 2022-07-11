@@ -11,10 +11,10 @@ namespace Backend.Controllers
         private readonly MyDbContext _context;
         public ClientesController(MyDbContext context) => _context = context;
 
-        [HttpGet]   
+        [HttpGet]
         public async Task<IEnumerable<Cliente>> Get()
         {
-            return await _context.Clientes.Include(c=>c.Direcciones).Include(c => c.Documentos).OrderBy(c => c.Nombre).ToListAsync();
+            return await _context.Clientes.Include(c => c.Direcciones).Include(c => c.Documentos).OrderBy(c => c.Nombre).ToListAsync();
         }
 
         [HttpPost]

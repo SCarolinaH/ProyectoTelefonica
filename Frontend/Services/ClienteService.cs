@@ -27,7 +27,7 @@ namespace Frontend.Services
                 return false;
         }
 
-        public async Task <bool> DeleteCliente(int id)
+        public async Task<bool> DeleteCliente(int id)
         {
 
             var result = await _httpClient.DeleteAsync($"api/clientes/{id}");

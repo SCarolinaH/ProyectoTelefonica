@@ -96,7 +96,7 @@ else
         else if (idDel != 0)
 
         {
-            cliente = await Servicio.GetCliente(id);
+            cliente = await Servicio.GetCliente(idDel);
             DisableEdit = true;
             Disabled = true;
             Titulo = "Eliminacion de cliente";
